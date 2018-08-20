@@ -110,3 +110,11 @@ It will generate result summary file ```result.txt```. Check out ROUGE metrics b
 "microsoft chairman bill gates late wednesday unveiled his vision of the digital lifestyle , outlining the latest version of his windows operating system to be launched later this year ."
 > Model output: bill gates unveils new technology vision
 > Actual title: gates unveils microsoft 's vision of digital lifestyle
+```
+
+## Pre-trained Model
+To test with pre-trained model, download [pre_trained.zip](https://drive.google.com/file/d/1V8pS1eoiv51wfiVp2rOB7IvJ5PeQs2n-/view?usp=sharing), and locate it in the project root directory. Then,
+```
+$ unzip pre_trained.zip
+$ python test.py
+```
