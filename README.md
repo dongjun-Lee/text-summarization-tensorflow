@@ -20,7 +20,7 @@ Used [BahdanauAttention](https://www.tensorflow.org/api_docs/python/tf/contrib/s
 
 ## Requirements
 - Python 3
-- Tensorflow
+- Tensorflow (>=1.8.0)
 - pip install -r requirements.txt
 
 
