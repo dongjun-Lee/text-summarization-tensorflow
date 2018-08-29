@@ -20,7 +20,7 @@ def clean_str(sentence):
 
 
 def get_text_list(data_path, toy):
-    with open(data_path, "r") as f:
+    with open (data_path, "r", encoding='utf-8') as f:
         if not toy:
             return list(map(lambda x: clean_str(x.strip()), f.readlines()))
         else:
