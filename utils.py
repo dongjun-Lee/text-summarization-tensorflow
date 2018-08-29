@@ -29,13 +29,15 @@ def get_text_list(data_path, toy):
 
 def build_dict(step, toy=False):
     if step == "train":
-        with open('word_dict.pickle', 'rb') as handle:
-            print('Loading pre file')
-            word_dict = pickle.load(handle)
-            reversed_dict = dict(zip(word_dict.values(), word_dict.keys()))
-            article_max_len = 50
-            summary_max_len = 15
-            return word_dict, reversed_dict, article_max_len, summary_max_len
+        if  os.path.exists ("word_dict.pickle"):
+             with open('word_dict.pickle', 'rb') as handle:
+                print('Loading pre file')
+                word_dict = pickle.load(handle)
+                reversed_dict = dict(zip(word_dict.values(), word_dict.keys()))
+                article_max_len = 50
+                summary_max_len = 15
+                return word_dict, reversed_dict, article_max_len, summary_max_len
+
         train_article_list = get_text_list(train_article_path, toy)
         train_title_list = get_text_list(train_title_path, toy)
 
