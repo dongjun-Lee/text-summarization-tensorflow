@@ -29,6 +29,15 @@ def get_text_list(data_path, toy):
 
 def build_dict(step, toy=False):
     if step == "train":
+        if  os.path.exists ("word_dict.pickle"):
+             with open('word_dict.pickle', 'rb') as handle:
+                print('Loading pre file')
+                word_dict = pickle.load(handle)
+                reversed_dict = dict(zip(word_dict.values(), word_dict.keys()))
+                article_max_len = 50
+                summary_max_len = 15
+                return word_dict, reversed_dict, article_max_len, summary_max_len
+
         train_article_list = get_text_list(train_article_path, toy)
         train_title_list = get_text_list(train_title_path, toy)
 
@@ -70,15 +79,38 @@ def build_dataset(step, word_dict, article_max_len, summary_max_len, toy=False):
         title_list = get_text_list(valid_title_path, toy)
     else:
         raise NotImplementedError
+    if os.path.exists ("X.txt"):
+        x = []
+        y = []
+
+        with open ("X.txt") as file:
+            for line in file:
+                x.append (line)
+
+        with open ("Y.txt") as file:
+            for line in file:
+                y.append (line)
+
+        return x, y
 
     x = list(map(lambda d: word_tokenize(d), article_list))
     x = list(map(lambda d: list(map(lambda w: word_dict.get(w, word_dict["<unk>"]), d)), x))
     x = list(map(lambda d: d[:article_max_len], x))
     x = list(map(lambda d: d + (article_max_len - len(d)) * [word_dict["<padding>"]], x))
 
+    x_saved = open ('X.txt', 'w')
+    for item in x:
+        x_saved.write ("%s\n" % item)
+    x_saved.close ()
+
     y = list(map(lambda d: word_tokenize(d), title_list))
     y = list(map(lambda d: list(map(lambda w: word_dict.get(w, word_dict["<unk>"]), d)), y))
     y = list(map(lambda d: d[:(summary_max_len-1)], y))
+    
+    y_saved = open ('Y.txt', 'w')
+    for item in y:
+        y_saved.write ("%s\n" % item)
+    y_saved.close ()
 
     return x, y
 

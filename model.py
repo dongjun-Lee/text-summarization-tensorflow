@@ -5,6 +5,7 @@ from utils import get_init_embedding
 
 class Model(object):
     def __init__(self, reversed_dict, article_max_len, summary_max_len, args, forward_only=False):
+
         self.vocabulary_size = len(reversed_dict)
         self.embedding_size = args.embedding_size
         self.num_hidden = args.num_hidden
