@@ -67,7 +67,6 @@ def build_dataset(step, word_dict, article_max_len, summary_max_len, toy=False):
         title_list = get_text_list(train_title_path, toy)
     elif step == "valid":
         article_list = get_text_list(valid_article_path, toy)
-        title_list = get_text_list(valid_title_path, toy)
     else:
         raise NotImplementedError
 
@@ -76,11 +75,13 @@ def build_dataset(step, word_dict, article_max_len, summary_max_len, toy=False):
     x = list(map(lambda d: d[:article_max_len], x))
     x = list(map(lambda d: d + (article_max_len - len(d)) * [word_dict["<padding>"]], x))
 
-    y = list(map(lambda d: word_tokenize(d), title_list))
-    y = list(map(lambda d: list(map(lambda w: word_dict.get(w, word_dict["<unk>"]), d)), y))
-    y = list(map(lambda d: d[:(summary_max_len-1)], y))
-
-    return x, y
+    if step == "valid":
+        return x
+    else:
+        y = list(map(lambda d: word_tokenize(d), title_list))
+        y = list(map(lambda d: list(map(lambda w: word_dict.get(w, word_dict["<unk>"]), d)), y))
+        y = list(map(lambda d: d[:(summary_max_len-1)], y))
+        return x, y
 
 
 def batch_iter(inputs, outputs, batch_size, num_epochs):

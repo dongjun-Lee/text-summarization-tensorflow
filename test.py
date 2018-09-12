@@ -10,7 +10,7 @@ with open("args.pickle", "rb") as f:
 print("Loading dictionary...")
 word_dict, reversed_dict, article_max_len, summary_max_len = build_dict("valid", args.toy)
 print("Loading validation dataset...")
-valid_x, valid_y = build_dataset("valid", word_dict, article_max_len, summary_max_len, args.toy)
+valid_x = build_dataset("valid", word_dict, article_max_len, summary_max_len, args.toy)
 valid_x_len = list(map(lambda x: len([y for y in x if y != 0]), valid_x))
 
 with tf.Session() as sess:
@@ -20,10 +20,10 @@ with tf.Session() as sess:
     ckpt = tf.train.get_checkpoint_state("./saved_model/")
     saver.restore(sess, ckpt.model_checkpoint_path)
 
-    batches = batch_iter(valid_x, valid_y, args.batch_size, 1)
+    batches = batch_iter(valid_x, [0] * len(valid_x), args.batch_size, 1)
 
     print("Writing summaries to 'result.txt'...")
-    for batch_x, batch_y in batches:
+    for batch_x, _ in batches:
         batch_x_len = list(map(lambda x: len([y for y in x if y != 0]), batch_x))
 
         valid_feed_dict = {
