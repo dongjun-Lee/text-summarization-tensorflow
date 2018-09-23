@@ -22,9 +22,9 @@ def clean_str(sentence):
 def get_text_list(data_path, toy):
     with open (data_path, "r", encoding='utf-8') as f:
         if not toy:
-            return list(map(lambda x: clean_str(x.strip()), f.readlines()))
+            return [clean_str(x.strip()) for x in f.readlines()]
         else:
-            return list(map(lambda x: clean_str(x.strip()), f.readlines()))[:50000]
+            return [clean_str(x.strip()) for x in f.readlines()][:50000]
 
 
 def build_dict(step, toy=False):
@@ -70,17 +70,17 @@ def build_dataset(step, word_dict, article_max_len, summary_max_len, toy=False):
     else:
         raise NotImplementedError
 
-    x = list(map(lambda d: word_tokenize(d), article_list))
-    x = list(map(lambda d: list(map(lambda w: word_dict.get(w, word_dict["<unk>"]), d)), x))
-    x = list(map(lambda d: d[:article_max_len], x))
-    x = list(map(lambda d: d + (article_max_len - len(d)) * [word_dict["<padding>"]], x))
-
+    x = [word_tokenize(d) for d in article_list]
+    x = [[word_dict.get(w, word_dict['<unk>']) for w in d] for d in x]
+    x = [d[:article_max_len] for d in x]
+    x = [d + (article_max_len - len(d)) * [word_dict['<padding>']] for d in x]
+    
     if step == "valid":
         return x
-    else:
-        y = list(map(lambda d: word_tokenize(d), title_list))
-        y = list(map(lambda d: list(map(lambda w: word_dict.get(w, word_dict["<unk>"]), d)), y))
-        y = list(map(lambda d: d[:(summary_max_len-1)], y))
+    else:        
+        y = [word_tokenize(d) for d in title_list]
+        y = [[word_dict.get(w, word_dict['<unk>']) for w in d] for d in y]
+        y = [d[:(summary_max_len - 1)] for d in y]
         return x, y
 
 
