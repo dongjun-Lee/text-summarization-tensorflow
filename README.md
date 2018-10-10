@@ -26,9 +26,7 @@ Used [BahdanauAttention](https://www.tensorflow.org/api_docs/python/tf/contrib/s
 
 ## Usage
 ### Prepare data
-Dataset is available at [harvardnlp/sent-summary](https://github.com/harvardnlp/sent-summary). Locate the summary.tar.gz file in project root directory. 
-
-Then
+Dataset is available at [harvardnlp/sent-summary](https://github.com/harvardnlp/sent-summary). Locate the summary.tar.gz file in project root directory. Then,
 ```
 $ python prep_data.py
 ```
