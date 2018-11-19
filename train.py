@@ -62,16 +62,14 @@ with tf.Session() as sess:
 
     print("\nIteration starts.")
     print("Number of batches per epoch :", num_batches_per_epoch)
-    for batch_x, batch_y in batches:
-        batch_x_len = list(map(lambda x: len([y for y in x if y != 0]), batch_x))
-        batch_decoder_input = list(map(lambda x: [word_dict["<s>"]] + list(x), batch_y))
-        batch_decoder_len = list(map(lambda x: len([y for y in x if y != 0]), batch_decoder_input))
-        batch_decoder_output = list(map(lambda x: list(x) + [word_dict["</s>"]], batch_y))
+    for batch_x, batch_y in batches:       
+        batch_x_len = [len([y for y in x if y != 0]) for x in batch_x]        
+        batch_decoder_input = [[word_dict['<s>']] + [x] for x in batch_y]
+        batch_decoder_len = [len([y for y in x if y != 0]) for x in batch_decoder_input]      
+        batch_decoder_output = [[x] + [word_dict['</s>']] for x in batch_y]
 
-        batch_decoder_input = list(
-            map(lambda d: d + (summary_max_len - len(d)) * [word_dict["<padding>"]], batch_decoder_input))
-        batch_decoder_output = list(
-            map(lambda d: d + (summary_max_len - len(d)) * [word_dict["<padding>"]], batch_decoder_output))
+        batch_decoder_input = [d + (summary_max_len - len(d)) * [word_dict['<padding>']] for d in batch_decoder_input]
+        batch_decoder_output = [d + (summary_max_len - len(d)) * [word_dict['<padding>']] for d in batch_decoder_output]        
 
         train_feed_dict = {
             model.batch_size: len(batch_x),
