@@ -30,6 +30,45 @@ Dataset is available at [harvardnlp/sent-summary](https://github.com/harvardnlp/
 ```
 $ python prep_data.py
 ```
+
+A new folder structure will be created:
+
+```
+.
+├── model.py
+├── prep_data.py
+├── README.md
+├── requirements.txt
+├── sample_data.zip
+├── sumdata
+│   ├── DUC2003
+│   │   ├── input.txt
+│   │   ├── task1_ref0.txt
+│   │   ├── task1_ref1.txt
+│   │   ├── task1_ref2.txt
+│   │   └── task1_ref3.txt
+│   ├── DUC2004
+│   │   ├── input.txt
+│   │   ├── task1_ref0.txt
+│   │   ├── task1_ref1.txt
+│   │   ├── task1_ref2.txt
+│   │   └── task1_ref3.txt
+│   ├── Giga
+│   │   ├── input.txt
+│   │   └── task1_ref0.txt
+│   └── train
+│       ├── train.article.txt
+│       ├── train.article.txt.gz
+│       ├── train.title.txt
+│       ├── train.title.txt.gz
+│       ├── valid.article.filter.txt
+│       └── valid.title.filter.txt
+├── summary.tar.gz
+├── test.py
+├── train.py
+└── utils.py
+```
+
 To use Glove pre-trained embedding, download it via
 ```
 $ python prep_data.py --glove
